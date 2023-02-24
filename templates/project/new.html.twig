@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="display-4"> Add a new Project</h1>
+        <div class="form-group">
+            <div class="row">
+                {{ form_start(form) }}
+                <div class="col-sm-4">
+                    {{ form_label(form.Name, 'Project Name', {'label_attr': {'class': 'control-label'}}) }}
+                    {{ form_widget(form.Name, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="col-sm-4 mt-2">
+                    <input type="submit" name="Save" value="Save" id="project_save" class="btn btn-primary">
+                </div>
+                {{ form_end(form) }}
+            </div>
+
+
+
+        </div>
+    </div>
+
+
+{% endblock %}

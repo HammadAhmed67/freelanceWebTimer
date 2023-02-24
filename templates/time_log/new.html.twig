@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+    {% block javascripts %}
+        <script src="{{ asset('js/myscript.js') }}"></script>
+    {% endblock %}
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="display-4"> Record Working Hours</h1>
+        {{ form_start(form) }}
+        <div class="form-group">
+            <div class="row">
+                <div class="col-sm-2">
+                    <input type="button" name="Start" value="Start" id="time_log_start" onclick="startTime()" class="btn btn-primary">
+                </div>
+                <div class="col-sm-2">
+                    <input type="submit" name="Stop" value="Stop" id="time_log_stop" disabled onclick="stopTime()" class="btn btn-danger">
+                </div>
+            </div>
+            <div class="row d-none">
+                <div class="col-sm-4">
+                    {{ form_row(form.startTime, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="col-sm-4">
+                    {{ form_row(form.endTime, {'attr': {'class': 'form-control'}}) }}
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    {{ form_row(form.project, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}

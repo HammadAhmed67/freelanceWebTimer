@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1>Evaluation</h1>
+
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Duration in Hours</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for timeLog in time_logs %}
+                <tr>
+                    <td>{{ timeLog.id }}</td>
+                    <td>{{ timeLog.getStartTime|date('Y-m-d H:i:s')|default('N/A') }}</td>
+                    <td>{{ timeLog.getEndTime|date('Y-m-d H:i:s')|default('N/A') }}</td>
+                    <td>{{ timeLog.getDuration }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-sm-4">
+                <label for="selectExample">Select Month</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <select class="form-control" id="selectExample">
+                    <option value="">--Select an option--</option>
+
+                    {% set monthNames = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] %}
+                    {% for data in monthlyData %}
+                        <option value="{{ data.month }}">{{ monthNames[data.month] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-sm-4">
+                <label id="working-hours-label">Working Hours: </label>
+            </div>
+        </div>
+                <script>
+                    var workingHours = {
+                        {% for data in monthlyData %}
+                        "{{ data.month }}": {{ data.total_duration }},
+                        {% endfor %}
+                    };
+
+                    document.getElementById('selectExample').addEventListener('change', function() {
+                        var selectedMonth = this.value;
+                        var workingHoursLabel = document.getElementById('working-hours-label');
+                        if (selectedMonth in workingHours) {
+
+                            workingHoursLabel.textContent = 'Working Hours: ' + workingHours[selectedMonth].toFixed(2);
+                        } else {
+                            workingHoursLabel.textContent = 'Working Hours: N/A';
+                        }
+                    });
+                </script>
+
+        <div class="row mt-2">
+            <div class="col-sm-4">
+                <a href="{{ path('time_log_index') }}" class="btn btn-primary">Back</a>
+                <a href="{{ path('time_log_export_time') }}" class="btn btn-primary">Export as CSV</a>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

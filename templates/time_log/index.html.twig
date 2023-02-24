@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .table td,
+        .table th {
+            vertical-align: middle;
+        }
+        .btn-group {
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .btn-group .btn {
+            border-radius: 0;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1>Time Logs</h1>
+
+        <table class="table">
+            <thead>
+            <tr>
+
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Duration in Hours</th>
+                <th>Project</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for timeLog in time_logs %}
+                <tr>
+                    <td>{{ timeLog.start_time|date('Y-m-d H:i:s')|default('N/A') }}</td>
+                    <td>{{ timeLog.end_time|date('Y-m-d H:i:s')|default('N/A') }}</td>
+                    <td>{{ timeLog.duration }}</td>
+                    <td>{{ timeLog.project_name }}</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a href="{{ path('time_log_edit', {'id': timeLog.time_log_id}) }}" class="btn btn-primary">Edit</a>
+                            <form action="{{ path('time_log_delete', {'id': timeLog.time_log_id}) }}" method="POST" style="display: inline">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ timeLog.time_log_id) }}">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('time_log_new') }}" class="btn btn-success">Add New Time Log</a>
+        <a href="{{ path('time_log_evaluation') }}" class="btn btn-success">Evaluation</a>
+        <a href="{{ path('project_new') }}" class="btn btn-success">Add Project</a>
+
+    </div>
+{% endblock %}
